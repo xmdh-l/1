@@ -7,7 +7,7 @@ on:
 
 jobs:
   build:
-    runs-on: self-hosted-arm64   # 官方免费 ARM64 runner
+    runs-on: self-hosted   # 官方免费 ARM64 runner
     steps:
       - name: Checkout QEMU
         uses: actions/checkout@v4
