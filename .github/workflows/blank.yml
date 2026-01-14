@@ -1,22 +1,19 @@
-name: Build QEMU
+name: Build QEMU arm64-native with riscv64 target
 
 on:
-  workflow_dispatch:          # 手动触发
+  workflow_dispatch:
   push:
     branches: [ main ]
 
 jobs:
   build:
-    runs-on: ubuntu-24.04    # 24.04 自带较新工具链
-    strategy:
-      matrix:
-        arch: [x86_64, aarch64, riscv64]
+    runs-on: ubuntu-24.04-arm   # 官方免费 ARM64 runner
     steps:
       - name: Checkout QEMU
         uses: actions/checkout@v4
         with:
           repository: qemu/qemu
-          ref: v8.2.2        # 想追新就改成 master 或 v9.0.0
+          ref: master          # 想追新可改 v9.0.0 / master
 
       - name: Install deps
         run: |
@@ -31,7 +28,7 @@ jobs:
 
       - name: Configure
         run: |
-          ./configure --target-list=${{ matrix.arch }}-softmmu \
+          ./configure --target-list=riscv64-softmmu \
                       --enable-virglrenderer --enable-opengl \
                       --enable-gtk --enable-sdl --enable-kvm \
                       --enable-vhost-net --enable-libusb \
@@ -50,15 +47,14 @@ jobs:
       - name: Tarball
         run: |
           cd install
-          tar -czf ../qemu-${{ matrix.arch }}-linux-gnu.tar.gz *
+          tar -czf ../qemu-system-riscv64-arm64.tar.gz *
 
       - name: Upload Release
         uses: softprops/action-gh-release@v1
         with:
-          tag_name: v8.2.2-${{ matrix.arch }}
-          files: qemu-${{ matrix.arch }}-linux-gnu.tar.gz
+          tag_name: master-arm64-riscv64
+          files: qemu-system-riscv64-arm64.tar.gz
           draft: false
           prerelease: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
