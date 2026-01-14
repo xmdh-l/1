@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-24.04    # 24.04 自带较新工具链
     strategy:
       matrix:
-        arch: [x86_64, aarch64, riscv64, armv7l]
+        arch: [x86_64, aarch64, riscv64]
     steps:
       - name: Checkout QEMU
         uses: actions/checkout@v4
