@@ -9,9 +9,9 @@ jobs:
   build:
     runs-on: self-hosted
     steps:
-      - name: Checkout QEMU
-        run: |
-         git clone https://gitlab.com/qemu/qemu.git
+     # - name: Checkout QEMU
+     #   run: |
+     #    git clone https://gitlab.com/qemu/qemu.git
 
       - name: Install deps
         run: |
