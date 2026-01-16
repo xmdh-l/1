@@ -7,13 +7,11 @@ on:
 
 jobs:
   build:
-    runs-on: self-hosted   # 官方免费 ARM64 runner
+    runs-on: self-hosted
     steps:
       - name: Checkout QEMU
-        uses: actions/checkout@v4
-        with:
-          repository: qemu/qemu
-          ref: master          # 想追新可改 v9.0.0 / master
+        run: |
+         git clone https://gitlab.com/qemu/qemu.git
 
       - name: Install deps
         run: |
